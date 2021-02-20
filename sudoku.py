@@ -3,7 +3,7 @@ import time
 start_time = time.time()
 subtractSet = {1,2,3,4,5,6,7,8,9}
 
-puzzle = np.array(
+puzzle1 = np.array(
     [4,0,1,8,0,0,0,5,3,
     8,0,5,0,7,4,0,0,6,
     0,0,7,5,3,0,0,1,8,
@@ -14,8 +14,21 @@ puzzle = np.array(
     3,0,0,0,8,1,5,0,7,
     5,8,0,3,4,0,9,0,0]
 )
-puzzle = puzzle.reshape(9,9)
-print(puzzle)
+
+puzzle1 = np.array(
+    [0,5,0,6,0,0,0,2,0,
+    0,0,3,8,0,0,7,0,6,
+    7,0,0,0,4,0,0,0,0,
+    0,0,0,0,7,4,9,0,0,
+    0,0,0,1,0,8,0,0,0,
+    0,0,1,3,5,0,0,0,0,
+    0,0,0,0,9,0,0,0,8,
+    2,0,4,0,0,1,6,8,8,
+    0,8,0,0,0,6,0,3,0]
+)
+
+puzzle1 = puzzle1.reshape(9,9)
+print(puzzle1)
 
 
 def checkHorizontal(y, puzzle):
@@ -100,30 +113,32 @@ def getSolved(puzzle):
         return True
 
 #iter = 0
-#error = 0
+depth = 0
 while True:
     #iter += 1
     #print(iter)
     #if iter % 1000:
         #print(puzzle)
-    #oldPuzzle = puzzle
+    oldPuzzle = puzzle1
     for x in range(9):
         for y in range(9):
-            if puzzle[x,y] == 0:
-                valid = getPossible([x,y], puzzle)
+            if puzzle1[x,y] == 0:
+                valid = getPossible([x,y], puzzle1.copy())
                 if len(valid) == 1:
-                    puzzle[x,y] = valid[0]
+                    puzzle1[x,y] = valid[0]
                     #print(valid)
-    #if np.array_equiv(oldPuzzle, puzzle):
-        #print("No progress was made.")
-        #error += 1
-        #if error > 10:
-            #print("Error threshhold reached. Aborting...")
-            #break
-    if not 0 in puzzle:
-        break
 
-print(puzzle)
+
+    if np.array_equiv(oldPuzzle, puzzle1):
+        depth += 1
+        
+    if depth == 10:
+        print("-------------------------------")
+        print(puzzle1)
+        raise RecursionError
+
+
+print(puzzle1)
 #print(0 in puzzle)
 
 print("--- %s seconds ---" % (time.time() - start_time))
