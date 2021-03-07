@@ -44,7 +44,20 @@ class BasicLogic():
         square = self.subtractSet - self.checkSquare(self.getThreeOfSquare(square), puzzle)
         valids = vertical.intersection(horizontal).intersection(square)
         return list(valids)
-
+    
+    # Returns a 9x9 grid of all the possible values for each square. 
+    # If the square is currently empty (0) then it gets the possible numbers and if it is full (1-9) then it just puts the filled number in.
+    def getPossibleWholeGrid(self, puzzle):
+        puzzleValids = np.zeros(9,9)
+        for x in range(9):
+            for y in range(9):
+                if puzzle[x][y] == 0:
+                    puzzleValids[x][y] = self.getPossible((x,y), puzzle)
+                else:
+                    puzzleValids[x][y] = puzzle[x][y]
+        
+        return puzzleValids
+    
     # Gets which 3x3 square a number/square is in.
     '''
     [0 1 2
