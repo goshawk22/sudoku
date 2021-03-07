@@ -58,6 +58,39 @@ class BasicLogic():
         
         return puzzleValids
     
+    # Gets the possible places a number can go in any given row, column or small square.
+    # Returns a 9x9 grid where the x axis corralates to the number it is checking and the y axis is a boolean for whether the number can go in each square in the set.
+    # typeCheck is a value for row (1), column (2), small square (3) and rcs_number (row column square number) is the row/column/small square to check
+    def getPossibleForNumber(self, puzzle, typeCheck, rcs_number):
+        possiblePlaces = np.zeros(9,9)
+        if typeCheck == 1:
+            for i in range(9):
+                valids = self.getPossible((rcs_number, i), puzzle)
+                for number in [1,2,3,4,5,6,7,8,9]:
+                    if number in valids:
+                        possiblePlaces[number, i] = 1
+        
+            return possiblePlaces
+
+        if typeCheck == 2:
+            for i in range(9):
+                valids = self.getPossible((i, rcs_number), puzzle)
+                for number in [1,2,3,4,5,6,7,8,9]:
+                    if number in valids:
+                        possiblePlaces[number, i] = 1
+        
+            return possiblePlaces
+
+        if typeCheck == 3:
+            for i in self.getSquaresInBigSquares(rcs_number):
+                valids = self.getPossible(i, puzzle)
+                for number in [1,2,3,4,5,6,7,8,9]:
+                    if number in valids:
+                        possiblePlaces[number, i] = 1
+        
+            return possiblePlaces
+
+
     # Gets which 3x3 square a number/square is in.
     '''
     [0 1 2
