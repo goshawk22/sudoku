@@ -122,7 +122,19 @@ class BasicLogic():
                 threeSquare = 8
 
         return threeSquare
+    
+    # Gets a list of coordinates that make up a big square.
+    def getSquaresInBigSquares(self, big_square):
+        coords = []
+        for x in range(9):
+            for y in range(9):
+                if self.getThreeOfSquare([x,y]) == big_square:
+                    coords.append([x,y])
+    
+        assert len(coords) == 9
+        return coords
 
+    # Checks if the puzzle has been solved, but does not check if it is correct.
     def getSolved(self, puzzle):
         if 0 in puzzle:
             return False
