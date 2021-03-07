@@ -32,12 +32,30 @@ easyPuzzle = np.array(
 
 puzzle = hardPuzzle.reshape(9,9)
 
-while not bs.getSolved(puzzle1):
-    for x in range(9):
-        for y in range(9):
-            if puzzle1[x][y] == 0:
-                valids = bs.getPossible((x,y), puzzle1)
-                if len(valids) == 1:
-                    puzzle1[x][y] = valids[0]
+def SimpleSolver():
+    recursionCounter = 0
+    while not bs.getSolved(puzzle):
+        recursionCounter += 1
+        for x in range(9):
+            for y in range(9):
+                if puzzle[x][y] == 0:
+                    valids = bs.getPossible((x,y), puzzle)
+                    if len(valids) == 1:
+                        puzzle[x][y] = valids[0]
 
-print(puzzle1)
+                        # If we successfully fill in a number then we are still solving
+                        recursionCounter -= 1
+        
+        if recursionCounter > 5:
+            return (0, puzzle)
+
+    return (1, puzzle)
+
+
+result = SimpleSolver()
+
+if result[0] == 1:
+    print("Solved Successfully with result: \n", result[1])
+elif result[0] == 0:
+    print("Could not solve! Maybe this puzzle requires logic not yet implemented! Here is where it got stuck: \n", result[1])
+
