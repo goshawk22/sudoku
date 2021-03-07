@@ -41,7 +41,7 @@ class BasicLogic():
     def getPossible(self, square, puzzle):
         vertical = self.subtractSet - self.checkVertical(square[1], puzzle)
         horizontal = self.subtractSet - self.checkHorizontal(square[0], puzzle)
-        square = self.subtractSet - self.checkSquare(self.getThreeOfSquare(square, puzzle), puzzle)
+        square = self.subtractSet - self.checkSquare(self.getThreeOfSquare(square), puzzle)
         valids = vertical.intersection(horizontal).intersection(square)
         return list(valids)
 
@@ -51,7 +51,7 @@ class BasicLogic():
      3 4 5
      6 7 8]
     '''
-    def getThreeOfSquare(self, square, puzzle):
+    def getThreeOfSquare(self, square):
 
         if square[1] < 3:
             if square[0] < 3:
