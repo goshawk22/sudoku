@@ -116,3 +116,11 @@ class BasicLogic():
     def getEmptySquares(self, puzzle):
         return list(np.argwhere(puzzle == 0))
     
+    def isValid(self, puzzle):
+        empty = self.getEmptySquares(puzzle)
+        for i in empty:
+            valids = self.getPossible(i, puzzle)
+            if len(valids) == 0:
+                return False
+        
+        return True
