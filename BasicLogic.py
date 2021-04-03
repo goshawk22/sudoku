@@ -107,7 +107,6 @@ class BasicLogic():
             columns and\
             squares:
 
-            print(True)
             return True
     
         return False
