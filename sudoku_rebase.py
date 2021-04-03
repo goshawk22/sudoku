@@ -33,7 +33,9 @@ easyPuzzle = np.array(
 
 puzzle = hardPuzzle.reshape(9,9)
 
-def SimpleSolver():
+def SimpleSolver(puzzle_in):
+    puzzle = puzzle_in.copy()
+    assert bs.isValid(puzzle)
     recursionCounter = 0
     while not bs.getSolved(puzzle):
         recursionCounter += 1
