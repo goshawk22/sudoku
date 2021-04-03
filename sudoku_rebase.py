@@ -73,10 +73,10 @@ def makeGuess(puzzle_in):
             puzzle[tuple(empty[i])] = valids[i][number]
 
             solution = solve(puzzle)
-            if solution is not False:
+            if not (solution is False):
                 return solution
             
-            puzzle[empty[i]] = 0
+            puzzle[tuple(empty[i])] = 0
 
 
 def solve(puzzle_in):
