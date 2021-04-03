@@ -112,3 +112,7 @@ class BasicLogic():
     
         return False
     
+    # Returns a list of coordinates that are empty
+    def getEmptySquares(self, puzzle):
+        return list(np.argwhere(puzzle == 0))
+    
