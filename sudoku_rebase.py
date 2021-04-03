@@ -54,6 +54,30 @@ def SimpleSolver(puzzle_in):
 
     return puzzle
 
+def makeGuess(puzzle_in):
+    puzzle = puzzle_in.copy()
+    assert bs.isValid(puzzle)
+    assert (0 in puzzle)
+    empty = bs.getEmptySquares(puzzle)
+    valids = []
+    for square in empty:
+        valids.append(bs.getPossible(square, puzzle))
+       
+    lengths = [len(x) for x in valids]
+    min_len = min(lengths)
+        
+    for i in range(len(valids)):
+        if len(valids[i]) == min_len:
+            number = random.randint(0,1)
+            assert puzzle[tuple(empty[i])] == 0
+            puzzle[tuple(empty[i])] = valids[i][number]
+
+            solution = solve(puzzle)
+            if solution is not False:
+                return solution
+            
+            puzzle[empty[i]] = 0
+
     return (1, puzzle)
 
 
