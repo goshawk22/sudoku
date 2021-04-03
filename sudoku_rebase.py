@@ -50,7 +50,9 @@ def SimpleSolver(puzzle_in):
                         recursionCounter -= 1
         
         if recursionCounter > 5:
-            return (0, puzzle)
+            return puzzle
+
+    return puzzle
 
     return (1, puzzle)
 
