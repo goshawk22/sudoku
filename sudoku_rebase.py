@@ -52,7 +52,73 @@ def SimpleSolver():
     return (1, puzzle)
 
 
+def SimpleSolverTwo(puzzle):
+    puzzle = puzzle.copy()
+    recursionCounter = 0
+    while not bs.getSolved(puzzle):
+
+        recursionCounter += 1
+
+        # Rows
+        for x in range(9):
+            valids = bs.getPossibleForNumber(puzzle, 1, x)
+            for number in [1,2,3,4,5,6,7,8,9]:
+                valids_temp = valids[number - 1].tolist()
+                if valids_temp.count(1) == 1:
+                    square = np.where(np.array(valids_temp) == 1)[0][0]
+                    assert puzzle[x][square] == 0 
+                    puzzle[x][square] = number
+                    
+                    # If we successfully fill in a number then we are still solving
+                    recursionCounter -= 1
+
+        # Columns
+        for x in range(9):
+            valids = bs.getPossibleForNumber(puzzle, 2, x)
+            for number in [1,2,3,4,5,6,7,8,9]:
+                valids_temp = valids[number - 1].tolist()
+                if valids_temp.count(1) == 1:
+                    square = np.where(np.array(valids_temp) == 1)[0][0]
+                    assert puzzle[square][x] == 0
+                    puzzle[square][x] = number
+                    
+                    # If we successfully fill in a number then we are still solving
+                    recursionCounter -= 1
+                    print(puzzle)
+
+
+        
+        # Squares
+        for x in range(9):
+            threeCoords = bs.getSquaresInBigSquares(x)
+            valids = bs.getPossibleForNumber(puzzle, 3, x)
+            for number in [1,2,3,4,5,6,7,8,9]:
+                valids_temp = valids[number - 1].tolist()
+                if valids_temp.count(1) == 1:
+                    square = np.where(np.array(valids_temp) == 1)[0]
+                    coord= threeCoords[square[0]]
+                    print(x)
+                    print(coord)
+                    print(number)
+                    assert puzzle[coord[0]][coord[1]] == 0
+                    puzzle[coord[0]][coord[1]] = number
+                    
+                    # If we successfully fill in a number then we are still solving
+                    recursionCounter -= 1
+
+                    print(puzzle)
+                    raise RecursionError
+        
+        if recursionCounter > 5:
+            return (0, puzzle)
+
+    return (1, puzzle)
+
+
+
 result = SimpleSolver()
+
+result = SimpleSolverTwo(puzzle)
 
 if result[0] == 1:
     print("Solved Successfully with result: \n", result[1])
