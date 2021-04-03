@@ -78,10 +78,23 @@ def makeGuess(puzzle_in):
             
             puzzle[empty[i]] = 0
 
-    return (1, puzzle)
+
+def solve(puzzle_in):
+    puzzle = puzzle_in.copy()
+    puzzle = SimpleSolver(puzzle)
+    if bs.is_solution(puzzle):
+        return (1, puzzle)
+    
+    if (not 0 in puzzle):
+        return (2, puzzle)
+
+    if not bs.isValid(puzzle):
+        return False
+    
+    return makeGuess(puzzle)
 
 
-result = SimpleSolver()
+result = solve(puzzle)
 
 if result[0] == 1:
     print("Solved Successfully with result: \n", result[1])
