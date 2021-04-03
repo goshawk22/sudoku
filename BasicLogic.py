@@ -39,10 +39,15 @@ class BasicLogic():
 
     # Gets the possible numbers for a square
     def getPossible(self, square, puzzle):
+        # If the square is already occupied then nothing else can go there!
+        if puzzle[square[0]][square[1]] != 0:
+            return [] 
+
         vertical = self.subtractSet - self.checkVertical(square[1], puzzle)
         horizontal = self.subtractSet - self.checkHorizontal(square[0], puzzle)
         square = self.subtractSet - self.checkSquare(self.getThreeOfSquare(square), puzzle)
         valids = vertical.intersection(horizontal).intersection(square)
+
         return list(valids)
     
     # Returns a 9x9 grid of all the possible values for each square. 
@@ -62,14 +67,14 @@ class BasicLogic():
     # Returns a 9x9 grid where the x axis corralates to the number it is checking and the y axis is a boolean for whether the number can go in each square in the set.
     # typeCheck is a value for row (1), column (2), small square (3) and rcs_number (row column square number) is the row/column/small square to check
     def getPossibleForNumber(self, puzzle, typeCheck, rcs_number):
-        possiblePlaces = np.zeros(9,9)
+        possiblePlaces = np.zeros(9*9, dtype=np.int8).reshape(9,9)
         if typeCheck == 1:
             for i in range(9):
                 valids = self.getPossible((rcs_number, i), puzzle)
                 for number in [1,2,3,4,5,6,7,8,9]:
                     if number in valids:
-                        possiblePlaces[number, i] = 1
-        
+                        possiblePlaces[number - 1, i] = 1
+
             return possiblePlaces
 
         if typeCheck == 2:
@@ -77,17 +82,18 @@ class BasicLogic():
                 valids = self.getPossible((i, rcs_number), puzzle)
                 for number in [1,2,3,4,5,6,7,8,9]:
                     if number in valids:
-                        possiblePlaces[number, i] = 1
+                        possiblePlaces[number - 1, i] = 1
         
             return possiblePlaces
 
         if typeCheck == 3:
-            for i in self.getSquaresInBigSquares(rcs_number):
-                valids = self.getPossible(i, puzzle)
+            for coord in self.getSquaresInBigSquares(rcs_number):
+                valids = self.getPossible(coord, puzzle)
                 for number in [1,2,3,4,5,6,7,8,9]:
                     if number in valids:
-                        possiblePlaces[number, i] = 1
-        
+                        possiblePlaces[number - 1, coord] = 1
+                        
+            print("Possible Places : \n", possiblePlaces)
             return possiblePlaces
 
 
