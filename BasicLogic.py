@@ -83,3 +83,28 @@ class BasicLogic():
         else:
             return True
 
+    def is_solution(self, puzzle):
+        rows = []
+        for i in range(9):
+            rows.append(np.sum(puzzle, axis=1) == 45)
+        rows = np.all(rows)
+
+        columns = []
+        for i in range(9):
+            columns.append(np.sum(puzzle, axis=0) == 45)
+        columns = np.all(columns)
+
+        squares = []
+        for i in range(9):
+            squares.append(np.sum(list(self.checkSquare(i, puzzle))) == 45)
+        squares = np.all(squares)
+
+        if rows and \
+            columns and\
+            squares:
+
+            print(True)
+            return True
+    
+        return False
+    
