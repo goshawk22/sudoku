@@ -39,6 +39,10 @@ class BasicLogic():
 
     # Gets the possible numbers for a square
     def getPossible(self, square, puzzle):
+        # If the square is already occupied then nothing else can go there!
+        if puzzle[square[0]][square[1]] != 0:
+            return [] 
+        
         vertical = self.subtractSet - self.checkVertical(square[1], puzzle)
         horizontal = self.subtractSet - self.checkHorizontal(square[0], puzzle)
         square = self.subtractSet - self.checkSquare(self.getThreeOfSquare(square), puzzle)
